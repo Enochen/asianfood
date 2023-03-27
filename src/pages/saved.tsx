@@ -1,22 +1,7 @@
-import {
-  Button,
-  Center,
-  Container,
-  Group,
-  MultiSelect,
-  Stepper,
-  Title,
-  Text,
-  Checkbox,
-  Space,
-  AppShell,
-  Header,
-  Navbar,
-} from "@mantine/core";
-import { useState } from "react";
-import ingredients from "@/data/ingredients.json";
+import MainLinks from "@/components/MainLinks";
+import { Title, AppShell, Header, Navbar, Text } from "@mantine/core";
 
-export default function Home() {
+export default function Saved() {
   return (
     <AppShell
       padding="md"
@@ -27,7 +12,9 @@ export default function Home() {
       }
       navbar={
         <Navbar width={{ base: 300 }} height={500} p="xs">
-          {/* Navbar content */}
+          <Navbar.Section mt="xs">
+            <MainLinks />
+          </Navbar.Section>
         </Navbar>
       }
       styles={(theme) => ({
