@@ -1,13 +1,14 @@
 import { Badge, Box, Button, Card, Group, Image, Text } from "@mantine/core";
 
 interface Props {
-  imageSrc: string;
   name: string;
+  description: string;
+  imageSrc: string;
 }
 
-export default function RecipeCard({ imageSrc, name }: Props) {
+export default function RecipeCard({ name, description, imageSrc }: Props) {
   return (
-    <Box maw={340} mx="auto">
+    <Box maw={340} mx="auto" my="md">
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section>
           <Image src={imageSrc} height={160} alt="recipe image" />
@@ -16,7 +17,7 @@ export default function RecipeCard({ imageSrc, name }: Props) {
           <Text weight={500}>{name}</Text>
         </Group>
         <Group mt="xs">
-          <Badge color="grape" variant="gradient">
+          <Badge color="grape" variant="outline">
             30 minutes or less
           </Badge>
           <Badge color="red" variant="outline">
@@ -24,8 +25,7 @@ export default function RecipeCard({ imageSrc, name }: Props) {
           </Badge>
         </Group>
         <Text size="sm" color="dimmed" mt="xs">
-          Mapo Tofu is a spicy Sichuan dish made with soft tofu and ground pork
-          in a sauce of chili bean paste and Sichuan peppercorns.
+          {description}
         </Text>
         <Button variant="light" color="blue" fullWidth radius="md" mt="md">
           See details

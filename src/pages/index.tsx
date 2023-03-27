@@ -11,7 +11,6 @@ import {
   Slider,
   TextInput,
   Text,
-  Grid,
   SimpleGrid,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
@@ -29,13 +28,57 @@ export default function Home() {
   // Query
   const [queryInput, setQueryInput] = useState("");
   const [query, setQuery] = useState<string[]>([]);
-  console.log(query);
 
   // Ingredients MultiSelect
   const [pantry, setPantry] = useState<string[]>([]);
 
   // Misc Slider
   const [sliderValue, setSliderValue] = useState(50);
+
+  const data = [
+    {
+      name: "Mapo Tofu",
+      imageSrc:
+        "https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg",
+      description:
+        "Mapo Tofu is a spicy Sichuan dish made with soft tofu and ground pork in a sauce of chili bean paste and Sichuan peppercorns.",
+    },
+    {
+      name: "Mapo Tofu",
+      imageSrc:
+        "https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg",
+      description:
+        "Mapo Tofu is a spicy Sichuan dish made with soft tofu and ground pork in a sauce of chili bean paste and Sichuan peppercorns.",
+    },
+    {
+      name: "Mapo Tofu",
+      imageSrc:
+        "https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg",
+      description:
+        "Mapo Tofu is a spicy Sichuan dish made with soft tofu and ground pork in a sauce of chili bean paste and Sichuan peppercorns.",
+    },
+    {
+      name: "Mapo Tofu",
+      imageSrc:
+        "https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg",
+      description:
+        "Mapo Tofu is a spicy Sichuan dish made with soft tofu and ground pork in a sauce of chili bean paste and Sichuan peppercorns.",
+    },
+    {
+      name: "Mapo Tofu",
+      imageSrc:
+        "https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg",
+      description:
+        "Mapo Tofu is a spicy Sichuan dish made with soft tofu and ground pork in a sauce of chili bean paste and Sichuan peppercorns.",
+    },
+    {
+      name: "Mapo Tofu",
+      imageSrc:
+        "https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg",
+      description:
+        "Mapo Tofu is a spicy Sichuan dish made with soft tofu and ground pork in a sauce of chili bean paste and Sichuan peppercorns.",
+    },
+  ];
 
   useEffect(() => {
     // make request to a server and update recipes
@@ -175,18 +218,9 @@ export default function Home() {
           <Title order={2}>Recipes</Title>
         </Center>
         <SimpleGrid cols={3} mt="md">
-          <RecipeCard
-            imageSrc="https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg"
-            name="Mapo Tofu"
-          />
-          <RecipeCard
-            imageSrc="https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg"
-            name="Mapo Tofu"
-          />
-          <RecipeCard
-            imageSrc="https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg"
-            name="Mapo Tofu"
-          />
+          {data.map((recipe) => (
+            <RecipeCard key={recipe.name} {...recipe} />
+          ))}
         </SimpleGrid>
       </Container>
     </AppShell>
