@@ -13,13 +13,20 @@ import {
   Text,
   SimpleGrid,
   Loader,
+  Modal,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import ingredients from "@/data/ingredients.json";
 import RecipeCard from "@/components/RecipeCard";
-import { useDebouncedState, useDebouncedValue } from "@mantine/hooks";
+import {
+  useDebouncedState,
+  useDebouncedValue,
+  useDisclosure,
+} from "@mantine/hooks";
 import { useQuery } from "react-query";
-import { searchRecipes } from "@/util/query";
+import { searchRecipe, searchRecipes } from "@/util/query";
+import RecipeContent from "@/components/RecipeContent";
+import { BaseRecipe } from "@/util/types";
 
 export default function Home() {
   // Stepper
@@ -39,14 +46,37 @@ export default function Home() {
   // Misc Slider
   const [sliderValue, setSliderValue] = useState(50);
 
+  // Modal
+  const [selectedRecipe, setSelectedRecipe] = useState<BaseRecipe | undefined>();
+  const [selectedId, setSelectedId] = useState<number | undefined>();
+  const [opened, { open, close }] = useDisclosure(false);
+
   const [queryDebounced] = useDebouncedValue(queryInput, 200);
 
   // Data Fetching
-  const { isLoading, isError, isSuccess, data } = useQuery(
+  const { isLoading: isLoadingQuery, data } = useQuery(
     ["recipesQuery", queryDebounced, pantry],
     async () => {
-      console.log("Refetching");
       return (await searchRecipes(queryDebounced, pantry)).data;
+    }
+  );
+
+  const { isLoading: isLoadingRecipe, data: recipeData } = useQuery(
+    ["selectedRecipe", selectedId],
+    async () => {
+      const placeholder: BaseRecipe = {
+        id: 1,
+        name: "Test",
+        description: "Testing 123 Lorem Ipsum idk",
+        tags: ["cool", "idk", "hi"],
+        minutes: 60,
+        ingredients: ["fefw", "hiewfwf", "oiwef"],
+        steps: ["Do this first", "Then This", "Then this"],
+      };
+      return placeholder;
+      if (selectedId) {
+        return (await searchRecipe(selectedId)).data;
+      }
     }
   );
 
@@ -91,6 +121,11 @@ export default function Home() {
         },
       })}
     >
+      <Modal size="xl" opened={opened} onClose={close} title="Recipe Details">
+        {/* {recipeData ? <RecipeContent {...recipeData} /> : <Loader />} */}
+        {selectedRecipe ? <RecipeContent {...selectedRecipe} /> : <Loader />}
+      </Modal>
+
       <Container p="lg" size="sm">
         {/* <Center h={100}>
           <Title order={1}>Asian Food</Title>
@@ -197,13 +232,18 @@ export default function Home() {
         <Center>
           <Title order={2}>Recipes</Title>
         </Center>
-        <Center mt="md">{isLoading && <Loader />}</Center>
+        <Center mt="md">{isLoadingQuery && <Loader />}</Center>
         <SimpleGrid cols={3} mt="md">
           {data?.slice(0, 8).map((recipe) => (
             <RecipeCard
               key={recipe.name}
               imageSrc="https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg"
               {...recipe}
+              detailCallback={() => {
+                setSelectedId(recipe.id);
+                setSelectedRecipe(recipe);
+                open();
+              }}
             />
           ))}
         </SimpleGrid>

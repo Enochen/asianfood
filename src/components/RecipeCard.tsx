@@ -1,17 +1,21 @@
 import { Badge, Box, Button, Card, Group, Image, Text } from "@mantine/core";
 
 interface Props {
+  id: number;
   name: string;
   description: string;
   imageSrc: string;
   tags: string[];
+  detailCallback: () => void;
 }
 
 export default function RecipeCard({
+  id,
   name,
   description,
   imageSrc,
   tags,
+  detailCallback,
 }: Props) {
   return (
     <Box w={300} mx="auto" my="md">
@@ -40,7 +44,14 @@ export default function RecipeCard({
         <Text size="sm" color="dimmed" mt="xs">
           {description}
         </Text>
-        <Button variant="light" color="blue" fullWidth radius="md" mt="md">
+        <Button
+          variant="light"
+          color="blue"
+          fullWidth
+          radius="md"
+          mt="md"
+          onClick={detailCallback}
+        >
           See details
         </Button>
       </Card>
