@@ -58,7 +58,7 @@ export default function RecipeContent({
           })}
         </List>
         <Title order={3}>Steps</Title>
-        <List>
+        <List type="ordered">
           {steps.map((step, i) => {
             return <List.Item key={i}>{step}</List.Item>;
           })}
