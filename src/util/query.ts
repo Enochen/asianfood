@@ -8,6 +8,6 @@ const client = axios.create({
 export const searchRecipes = (
   query: string,
   pantry: string[]
-): Promise<BaseRecipe[]> => {
-  return client.post(`/recipes`, { query, pantry });
+) => {
+  return client.post<BaseRecipe[]>(`/recipes`, { query, pantry });
 };

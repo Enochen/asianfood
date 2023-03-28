@@ -4,11 +4,17 @@ interface Props {
   name: string;
   description: string;
   imageSrc: string;
+  tags: string[];
 }
 
-export default function RecipeCard({ name, description, imageSrc }: Props) {
+export default function RecipeCard({
+  name,
+  description,
+  imageSrc,
+  tags,
+}: Props) {
   return (
-    <Box maw={340} mx="auto" my="md">
+    <Box w={300} mx="auto" my="md">
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section>
           <Image src={imageSrc} height={160} alt="recipe image" />
@@ -17,12 +23,19 @@ export default function RecipeCard({ name, description, imageSrc }: Props) {
           <Text weight={500}>{name}</Text>
         </Group>
         <Group mt="xs">
-          <Badge color="grape" variant="outline">
+          {/* {tags.map((tag) => {
+            return (
+              <Badge color="grape" variant="outline" key={tag}>
+                {tag}
+              </Badge>
+            );
+          })} */}
+          {/* <Badge color="grape" variant="outline">
             30 minutes or less
           </Badge>
           <Badge color="red" variant="outline">
             Chinese
-          </Badge>
+          </Badge> */}
         </Group>
         <Text size="sm" color="dimmed" mt="xs">
           {description}
