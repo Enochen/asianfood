@@ -74,9 +74,9 @@ export default function Home() {
         steps: ["Do this first", "Then This", "Then this"],
       };
       return placeholder;
-      if (selectedId) {
-        return (await searchRecipe(selectedId)).data;
-      }
+      // if (selectedId) {
+      //   return (await searchRecipe(selectedId)).data;
+      // }
     }
   );
 
