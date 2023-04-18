@@ -26,7 +26,7 @@ import {
 import { useQuery } from "react-query";
 import { searchRecipe, searchRecipes } from "@/util/query";
 import RecipeContent from "@/components/RecipeContent";
-import { BaseRecipe } from "@/util/types";
+import { BaseRecipe, FullRecipe } from "@/util/types";
 
 export default function Home() {
   // Stepper
@@ -47,7 +47,9 @@ export default function Home() {
   const [sliderValue, setSliderValue] = useState(50);
 
   // Modal
-  const [selectedRecipe, setSelectedRecipe] = useState<BaseRecipe | undefined>();
+  const [selectedRecipe, setSelectedRecipe] = useState<
+    FullRecipe | undefined
+  >();
   const [selectedId, setSelectedId] = useState<number | undefined>();
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -64,7 +66,7 @@ export default function Home() {
   const { isLoading: isLoadingRecipe, data: recipeData } = useQuery(
     ["selectedRecipe", selectedId],
     async () => {
-      const placeholder: BaseRecipe = {
+      const placeholder: FullRecipe = {
         id: 1,
         name: "Test",
         description: "Testing 123 Lorem Ipsum idk",
@@ -72,6 +74,10 @@ export default function Home() {
         minutes: 60,
         ingredients: ["fefw", "hiewfwf", "oiwef"],
         steps: ["Do this first", "Then This", "Then this"],
+        img_link:
+          "https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg",
+        avg_rating: 4.5,
+        user_data: [],
       };
       return placeholder;
       // if (selectedId) {
@@ -100,7 +106,7 @@ export default function Home() {
       header={
         <Header height={70} px="lg" py="md">
           <Center>
-            <Title order={2}>Asian Food Rec</Title>
+            <Title order={2}>Asian Food Recs</Title>
           </Center>
         </Header>
       }
@@ -121,9 +127,9 @@ export default function Home() {
         },
       })}
     >
-      <Modal size="xl" opened={opened} onClose={close} title="Recipe Details">
-        {/* {recipeData ? <RecipeContent {...recipeData} /> : <Loader />} */}
-        {selectedRecipe ? <RecipeContent {...selectedRecipe} /> : <Loader />}
+      <Modal size="xl" opened={opened} onClose={close} title="Details">
+        {/* {recipeData ? <RecipeContent recipe={recipeData} /> : <Loader />} */}
+        {selectedRecipe ? <RecipeContent recipe={selectedRecipe} /> : <Loader />}
       </Modal>
 
       <Container p="lg" size="sm">
@@ -234,11 +240,10 @@ export default function Home() {
         </Center>
         <Center mt="md">{isLoadingQuery && <Loader />}</Center>
         <SimpleGrid cols={3} mt="md">
-          {data?.slice(0, 8).map((recipe) => (
+          {data?.slice(0, 9).map((recipe) => (
             <RecipeCard
               key={recipe.name}
-              imageSrc="https://thewoksoflife.com/wp-content/uploads/2019/06/mapo-tofu-10.jpg"
-              {...recipe}
+              recipe={recipe}
               detailCallback={() => {
                 setSelectedId(recipe.id);
                 setSelectedRecipe(recipe);
